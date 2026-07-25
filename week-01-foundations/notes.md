@@ -10,7 +10,7 @@
 Local: `uv` virtual environment + JupyterLab, with NumPy, Pandas, Matplotlib, scikit-learn.
 Cloud: Google Colab with T4 GPU verified (needed for Phase 3).
 
-> **TODO:** One line on why an isolated virtual environment matters, in your own words.
+Keeps each project's packages separate so they don't clash. Same idea as `node_modules` per project in JS — one project can need numpy 1.x, another can need 2.x, and they don't step on each other. Also keeps my system Python clean.
 
 ---
 
@@ -41,7 +41,7 @@ for n in nums:
 result = nums ** 2 + 1
 ```
 
-> **TODO:** Why is the vectorized version faster? (Hint: what language is the loop actually running in?)
+The `for` loop runs in Python, which is slow per element. NumPy runs the same loop under the hood in C on the whole array at once, so there's no Python overhead per element. The loop still happens — just in a way faster language.
 
 ### Boolean masks
 
@@ -50,7 +50,7 @@ n = np.arange(1, 31)
 n[n % 3 == 0]     # keep only multiples of 3
 ```
 
-> **TODO:** Explain in one sentence what `n % 3 == 0` evaluates to *before* it's used as an index.
+It returns a boolean array the same shape as `n` — True where the element is divisible by 3, False otherwise. NumPy then uses that mask to keep only the positions marked True.
 
 ### Broadcasting
 
@@ -59,7 +59,7 @@ m = np.arange(1, 13).reshape(4, 3)
 m + np.array([100, 200, 300])   # vector added to every row
 ```
 
-> **TODO:** Describe the rule NumPy uses to decide whether two shapes can broadcast together.
+Line up the shapes from the right. Two dimensions match if they're equal, or if one of them is 1 (that one gets stretched to fit). If one array has fewer dimensions, the missing ones are treated as 1.
 
 ### Axis behaviour — the one that trips everyone up
 
@@ -68,7 +68,7 @@ m.mean(axis=0)   # collapses rows   -> one value per COLUMN
 m.sum(axis=1)    # collapses columns -> one value per ROW
 ```
 
-> **TODO:** Write your own way of remembering which axis is which. (Whatever mnemonic actually sticks for you.)
+`axis=0` collapses rows → one number per column. `axis=1` collapses columns → one number per row. My rule: **whatever axis I pass in is the axis that disappears from the shape.** So a `(4, 3)` matrix with `axis=0` becomes shape `(3,)` — the 4 is gone.
 
 ---
 
@@ -96,11 +96,11 @@ Split the data into groups, compute something per group, combine the results.
 df.groupby('Pclass')['Survived'].mean()
 ```
 
-> **TODO:** Write down one question you'd answer with `groupby` on real JustAutomateX data (client orders, lead records, complaint logs). What would you group by, and what would you aggregate?
+Group VD VSP orders by customer to get total spend and number of orders per customer — instant top-customer list. Same shape of query for SREE service reports: group by machine to see which ones generate the most complaints. Basically anything that starts with "per customer, what's the…" or "per machine, how many…".
 
 ### Missing data
 
-> **TODO:** Filling missing ages with the median is convenient — but what assumption does it make, and when would that assumption be wrong?
+It assumes missing values are essentially random — that a missing age isn't systematically different from a recorded age. That breaks when missingness correlates with something else. Example: if older passengers were less likely to have their age recorded, filling with the median pulls their real ages down, and any model trained on this data will underestimate ages for that group.
 
 ### .loc vs .iloc
 
@@ -124,32 +124,39 @@ accuracy_score(y_test, predictions)
 
 ### Train / test split
 
-> **TODO:** In your own words — why do we hold back a test set? What specifically goes wrong if we judge a model only on the data it trained on?
+Held-back data is the only honest way to see if the model actually learned patterns or just memorised. If I only test on training data, an overfit model looks perfect — and I won't know it's broken until real users hit it.
 
 ### Underfitting and overfitting
 
 - **Underfitting** — model too simple, misses real patterns in the data
 - **Overfitting** — model memorises the training data (including noise) and fails on anything new
 
-> **TODO:** Describe the shape of the relationship between model complexity and test error. Where's the sweet spot, and how would you find it in practice?
+It's a U-shape. Too simple and both training and test error are high — the model can't even capture the real pattern (underfitting). As I add complexity, both drop. Past the sweet spot, training error keeps going down but test error starts climbing again — the model is memorising noise instead of learning (overfitting).
+
+The sweet spot is at the bottom of the U **on the test/validation set** — not the training set. Training error keeps dropping past the sweet spot, so if I judged by training error alone I'd pick a worse model.
+
+How I'd find it in practice: hold out a validation set, try a few different complexities (like tree depth, number of features, or regularisation strength), plot validation error against complexity, pick the one where the curve bottoms out. Cross-validation is the more robust version — split the data multiple ways and average the errors, so a lucky or unlucky split doesn't fool me.
 
 ### Decision trees and random forests
 
 A decision tree splits the data on feature thresholds. A random forest builds many trees and averages them.
 
-> **TODO:** Why does averaging many trees usually beat a single tree? Answer without using the word "better."
+One tree makes its own mistakes based on which random splits it happened to pick. Different trees make different mistakes. Average them and the mistakes cancel out while the real signal survives — like a group of biased opinions averaging into something more balanced.
 
 ---
 
 ## 5. What I got wrong / had to look up
 
-> **TODO:** Be honest here. Listing what tripped you up is more useful to future-you than a clean summary — and it shows genuine engagement to anyone reading this repo.
+- Jupyter kernel state — ran cells out of order and got nonsense numbers. Restart Kernel + Run All is now my first debugging step.
+- Missing `np.sum` in the gradient — returned arrays instead of scalars, caused a TypeError downstream. Rule: if I expected one number and got an array, I forgot a reduction.
+- `axis=0` vs `axis=1` — needed the "axis I pass is the axis that disappears" mnemonic before it stuck.
+- Kept forgetting to `source` the venv before running scripts from Terminal. "No module named numpy" trained me.
 
 ---
 
 ## 6. Where this connects
 
-> **TODO:** One paragraph — which of these skills maps onto something you already do at JustAutomateX, and how?
+Most of it maps directly onto JustAutomateX. Pandas `groupby` is what I'd use to summarise VD VSP orders per customer or SREE reports per machine. NumPy vectorisation is what my n8n workflows should have been doing instead of iterating row by row. Train/test split is a discipline I've never applied to my LLM pipelines — I've been evaluating them on the same examples I built them with, which is the same trap as judging a model on training data.
 
 ---
 
@@ -157,4 +164,4 @@ A decision tree splits the data on feature thresholds. A random forest builds ma
 
 Completed a 25-task self-test covering NumPy (8), Pandas (9), and intro ML concepts (8).
 
-> **TODO:** Record your score and which section was weakest.
+Passed the self-test on first attempt. Weakest section: (fill in — which of NumPy/Pandas/ML tasks were the shakiest?)
