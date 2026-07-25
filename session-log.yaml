@@ -1,0 +1,21 @@
+# session-log.yaml — record of actual sessions, used to calibrate
+# multipliers per Rule 6.
+#
+# Governed by CLAUDE.md OPERATIONAL RULES.
+#
+# Schema (one entry per session):
+#
+#   - date: YYYY-MM-DD
+#     items: [<id>, <id>, ...]         # item ids from ml-syllabus.yaml
+#     planned_min: <integer>            # sum from the plan's Rule 4 table
+#     actual_min: <integer>             # from user answer at close-out
+#     difficulty: easy | right | hard   # from user answer at close-out
+#     notes: <string|null>              # blockers, half-done items, etc.
+#     status: completed | skipped       # skipped entries are NOT used in calibration
+#
+# RULE 8a: Claude never fills any field. Only the user's close-out answers.
+# RULE 8b: If a planned session has no entry here (and no "skipped"), the
+#          next session is blocked until logged.
+# RULE 8c: After every 5th completed entry, run Rule 6 recalibration.
+
+sessions: []

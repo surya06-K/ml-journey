@@ -1,0 +1,97 @@
+# ml-syllabus.yaml — single source of truth for schedulable items.
+#
+# Governed by CLAUDE.md OPERATIONAL RULES.
+#
+# Schema (one entry per item):
+#
+#   - id: <string, unique>          e.g. c1w2_l3, c1w2_lab1, c1w2_quiz1
+#     course: <string>              e.g. "Andrew Ng ML Spec Course 1"
+#     week: <integer>
+#     title: <string>               EXACT title as shown on Coursera. No paraphrase.
+#     type: video | lab | quiz | reading | practice
+#     duration_min: <integer|null>  NEVER filled unless verified: true.
+#     verified: true | false
+#     source: user_paste | chrome_read | null
+#
+# RULE 1: duration_min may NEVER be a non-null integer while verified is false.
+# RULE 3: only accepted sources for verification are user_paste or chrome_read.
+#         Claude's own recall of the course is NOT an accepted source.
+#
+# Self-directed drills (my own practice, not course content) are tagged
+# type: practice with source: null and are budgeted separately per Rule 4.
+#
+# ============================================================================
+# ANDREW NG — ML SPECIALIZATION COURSE 1, WEEK 2
+# ============================================================================
+# Item IDs below are placeholders based on topics referenced in prior
+# planning conversation. Titles, ordering, and item count all require
+# verification via user_paste or chrome_read before any plan is generated.
+# All items intentionally left with duration_min: null and verified: false.
+
+items:
+  - id: c1w2_l1
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: video
+    duration_min: null
+    verified: false
+    source: null
+
+  - id: c1w2_l2
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: video
+    duration_min: null
+    verified: false
+    source: null
+
+  - id: c1w2_l3
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: video
+    duration_min: null
+    verified: false
+    source: null
+
+  - id: c1w2_l4
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: video
+    duration_min: null
+    verified: false
+    source: null
+
+  - id: c1w2_lab1
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: lab
+    duration_min: null
+    verified: false
+    source: null
+
+  - id: c1w2_quiz1
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: null
+    type: quiz
+    duration_min: null
+    verified: false
+    source: null
+
+# Additional items likely exist in Week 2 (more videos, more labs, practice
+# quizzes). Full item count is unknown until source ingestion. Do NOT add
+# entries based on Claude's recall.
+
+# ============================================================================
+# SELF-DIRECTED DRILLS (my own practice, not course content)
+# ============================================================================
+# These are budgeted separately per Rule 4 and never blended into
+# course-item time. duration_min here reflects my own planned time for the
+# drill, not a Coursera figure — verified: true because I set it.
+
+drills: []

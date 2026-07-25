@@ -1,0 +1,23 @@
+# corrections.log — append-only record of factual errors and their fixes.
+#
+# Governed by CLAUDE.md OPERATIONAL RULES, Rule 5.
+#
+# Entry format:
+#
+#   date: YYYY-MM-DD
+#   item: <id from ml-syllabus.yaml, or "plan" for planning errors>
+#   wrong_value: <what Claude wrote>
+#   correct_value: <what it should be>
+#   source: user_paste | chrome_read | user_correction
+#   rule_failed: <which rule was violated>
+#   ---
+#
+# ============================================================================
+
+date: 2026-07-25
+item: c1w2 feature-engineering + polynomial-regression session block
+wrong_value: 2.5 hours allocated for a segment estimated by Claude
+correct_value: unknown — actual duration must come from Coursera, not Claude's recall
+source: user_correction
+rule_failed: Rule 1 (invented a duration without verified: true) and Rule 3 (used own recall as source)
+---
