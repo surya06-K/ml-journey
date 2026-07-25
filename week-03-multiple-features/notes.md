@@ -1,7 +1,7 @@
 # Week 3 — Multiple features and vectorization
 
 **Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1, Week 2)
-**Status:** 🔄 In progress — Day 1 done (multiple features + vectorization)
+**Status:** 🔄 In progress — Day 1 done
 
 ---
 
@@ -11,7 +11,9 @@ Week 2 had one feature (`x`) at a time. Real problems have many — a house has 
 
 ---
 
-## 1. Multiple features — the model
+## Day 1 — Multiple features + vectorization  ✅
+
+### The model
 
 **Long form:**
 
@@ -31,9 +33,7 @@ f(x) = w · x + b
 
 **⚠️ Don't confuse `f(x)` with `J(w,b)`.** `f(x)` is the *model* — the thing that predicts. `J(w,b)` is the *cost function* — the thing that scores how wrong the model is. Mixed these up on the Day 1 quiz.
 
----
-
-## 2. Shapes — the thing that will bite me later if I don't lock it in now
+### Shapes — the thing that will bite me later if I don't lock it in now
 
 For `m` training examples and `n` features:
 
@@ -60,9 +60,7 @@ predictions = X @ w + b       # (m,) + scalar → (m,)
 
 **Debugging tell:** when I see `ValueError: shapes (...) and (...) not aligned`, first thing to do is print `.shape` on both operands.
 
----
-
-## 3. Why vectorize
+### Why vectorize
 
 Three reasons NumPy's `np.dot(w, x)` beats a Python `for` loop over features:
 
@@ -72,16 +70,32 @@ Three reasons NumPy's `np.dot(w, x)` beats a Python `for` loop over features:
 
 Together this is often 10–100× faster than the equivalent loop.
 
----
+### What tripped me up on Day 1
 
-## 4. What tripped me up
-
-- Wrote `J(w,b)` when I meant `f(x)` in the Day 1 quiz — mixed up cost function with the model. Locking in: `J` scores, `f` predicts.
+- Wrote `J(w,b)` when I meant `f(x)` in the quiz — mixed up cost function with the model. Locking in: `J` scores, `f` predicts.
 - Skipped the shapes question the first time. Realised I couldn't just wave through it — every ML error from now on is a shape mismatch.
 
 ---
 
-## 5. Where this connects
+## Day 2 — Feature scaling  *(pending)*
+
+Why models converge faster when features are on similar scales. What breaks when one feature ranges 0–1 and another ranges 0–10,000.
+
+---
+
+## Day 3 — Feature engineering + polynomial regression  *(pending)*
+
+Creating new features from existing ones. Fitting curves, not just lines.
+
+---
+
+## Day 4 — Extend from-scratch code to n features  *(pending)*
+
+Rewrite `cost_function_from_scratch.py` (or add a new file) to handle `X` (matrix) and `w` (vector) instead of scalars.
+
+---
+
+## Where this connects to JustAutomateX
 
 At JustAutomateX, everything I care about has *multiple* features per record — a prospect has 9 qualification-framework dimensions, an order has customer + product + quantity + timing. Week 2's single-feature model was a warm-up; this week is where it starts looking like real problems.
 

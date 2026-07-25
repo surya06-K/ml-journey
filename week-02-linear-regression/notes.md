@@ -1,13 +1,13 @@
 # Week 2 — Linear regression and the cost function
 
-**Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1)
-**Status:** ✅ Complete — linear regression, cost function, and gradient descent implemented from scratch (5/5 passing)
+**Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1, Week 1)
+**Status:** ✅ Days 1–3 complete — linear regression, cost function, and gradient descent implemented from scratch (5/5 passing). Day 4 (labs + graded quiz) remaining.
 
 ---
 
 ## The through-line for this week
 
-In Week 1 I *used* models — `model.fit()` was a black box. This week opens that box.
+In Week 1 I *used* models — `model.fit()` was a black box. This week opened that box.
 
 A model is just numbers → the cost function measures how wrong those numbers are → gradient descent adjusts them until the cost is minimised.
 
@@ -15,11 +15,15 @@ That chain is what `fit()` was doing the whole time.
 
 ---
 
-## 1. Supervised learning — the two splits
+## Day 1 — Intro to ML
+
+### The two splits
 
 **Supervised vs unsupervised:** do I have the correct answers in my data?
 
 **Regression vs classification:** am I predicting a continuous number, or a category?
+
+### Examples from my own work
 
 **Regression** (predict a number): from VD VSP order history, predict the total order value of the next order for a given customer.
 
@@ -27,7 +31,9 @@ That chain is what `fit()` was doing the whole time.
 
 ---
 
-## 2. The linear regression model
+## Day 2 — Linear regression and the cost function
+
+### The model
 
 ```
 f(x) = wx + b
@@ -44,11 +50,9 @@ f(x) = wx + b
 
 `w` and `b` are the **parameters** — the only things the model learns.
 
-Training a linear regression model means finding the straight line that best fits my data. The model learns two things — a slope and an intercept — that together define that line. Once the line is set, giving it a new input produces a predicted output. The whole "training" is figuring out where the line should sit so predictions on past data are as close as possible to the real answers.
+**In plain language.** Training a linear regression model means finding the straight line that best fits my data. The model learns two things — a slope and an intercept — that together define that line. Once the line is set, giving it a new input produces a predicted output. The whole "training" is figuring out where the line should sit so predictions on past data are as close as possible to the real answers.
 
----
-
-## 3. The cost function
+### The cost function
 
 ```
 J(w,b) = (1 / 2m) · Σ (ŷ⁽ⁱ⁾ − y⁽ⁱ⁾)²
@@ -56,27 +60,28 @@ J(w,b) = (1 / 2m) · Σ (ŷ⁽ⁱ⁾ − y⁽ⁱ⁾)²
 
 Read plainly: for every training example, take prediction minus truth, square it, add them all up, average.
 
-Two reasons: (1) without squaring, a +5 and a −5 error would cancel out and falsely look like zero error, so squaring keeps every error positive. (2) squaring punishes big errors more than small ones — being off by 10 counts 4× as much as being off by 5, not 2× — which is usually what I want.
+**Why square the errors.** Two reasons: (1) without squaring, a +5 and a −5 error would cancel out and falsely look like zero error, so squaring keeps every error positive. (2) squaring punishes big errors more than small ones — being off by 10 counts 4× as much as being off by 5, not 2× — which is usually what I want.
 
-Pure mathematical convenience. When you take the derivative of the squared term (for gradient descent), a factor of 2 comes down that cancels the `1/2`, making the gradient formula cleaner. It has no effect on where the minimum is.
+**Why the `2` in `2m`.** Pure mathematical convenience. When you take the derivative of the squared term (for gradient descent), a factor of 2 comes down that cancels the `1/2`, making the gradient formula cleaner. It has no effect on where the minimum is.
 
 ### The bowl
 
 Plotting `J` against `w` and `b` gives a bowl shape. Every point on the floor is one possible model; the height is how wrong that model is.
 
-**Training a model means finding the parameters (`w`, `b`) that sit at the bottom of the cost bowl — the ones with the lowest possible cost on the training data.**
+**The key sentence.** *Training a model means finding the parameters (`w`, `b`) that sit at the bottom of the cost bowl — the ones with the lowest possible cost on the training data.*
 
 The two horizontal axes are the parameters (`w` and `b`), the height is `J`. The bottom is the best model.
 
-Geometrically: the line passes exactly through every training point — zero error on every example. That's usually bad news because it's the classic overfitting signal. The model has memorised the training data (including its noise) and almost certainly won't generalise to any new input.
+**If `J(w,b) = 0` exactly.** Geometrically the line passes through every training point — zero error on every example. That's usually bad news because it's the classic overfitting signal. The model has memorised the training data (including its noise) and almost certainly won't generalise to any new input.
 
 ---
 
-## 4. Gradient descent
+## Day 3 — Gradient descent
 
 **The intuition.** I'm standing on a hilly cost surface in fog. I can't see the whole landscape but I can feel the slope under my feet. Feel which way is downhill, take a small step, repeat. That's the algorithm.
 
 **The update rule.**
+
 ```
 w = w - α · (∂J/∂w)
 b = b - α · (∂J/∂b)
@@ -92,29 +97,31 @@ b = b - α · (∂J/∂b)
 
 **One reassurance.** Linear regression's cost is convex — one single bowl, no local minima — so gradient descent always finds the global minimum here. (Stops being true for neural nets in Phase 3.)
 
----
+### Implementation
 
-## 5. Implementation
+See [`cost_function_from_scratch.py`](cost_function_from_scratch.py) — cost function and gradient descent written in raw NumPy, no scikit-learn. 5/5 passing.
 
-See [`cost_function_from_scratch.py`](cost_function_from_scratch.py) — cost function and gradient descent written in raw NumPy, no scikit-learn.
+**Notes from getting it working.** First surprise was a self-inflicted bug — forgot `np.sum` in `compute_gradient`, so it returned arrays instead of scalars. Everything downstream broke with a TypeError. Lesson: if I expected one number and got an array, I forgot a reduction.
 
-Two surprises. First, the initial bug — I forgot `np.sum` in `compute_gradient`, so it returned arrays instead of scalars. Everything downstream broke with a TypeError. Lesson: if I expected one number and got an array, I forgot a reduction.
-
-Second, once fixed, gradient descent recovered `w=2.0000, b=1.0000` from data generated by `y = 2x + 1` — starting from `w=0, b=0`, cost dropped from 22.16 to essentially 0 over 10,000 iterations. Watching a working optimizer for the first time on my own code felt more real than any lecture.
+Once fixed, gradient descent recovered `w=2.0000, b=1.0000` from data generated by `y = 2x + 1` — starting from `w=0, b=0`, cost dropped from 22.16 to essentially 0 over 10,000 iterations. Watching a working optimizer for the first time on my own code felt more real than any lecture.
 
 ---
 
-## 6. Connecting to the maths
+## Day 4 — Coursera labs + graded quiz  *(pending)*
 
-Parallel track: 3Blue1Brown — Essence of Calculus (ch. 1–3), Essence of Linear Algebra (ch. 1–3).
-
-A derivative is the slope of a function at a specific point — it tells you which direction the function is heading and how steeply. Gradient descent needs one because the slope is literally the "which way is downhill" signal it reads off the ground to decide its next step.
+Optional labs already covered by the from-scratch implementation. Quiz to close out Course 1 Week 1.
 
 ---
 
-## 7. Where this connects
+## Math parallel — Essence of Calculus (3B1B, ch. 1–3)
 
-"For a given customer, based on their past orders, what's the expected value of their next order?" That's a linear regression problem — continuous number out — and directly useful for VD VSP planning and for prioritising outreach on high-value accounts.
+**A derivative is** the slope of a function at a specific point — it tells you which direction the function is heading and how steeply. Gradient descent needs one because the slope is literally the "which way is downhill" signal it reads off the ground to decide its next step.
+
+---
+
+## Where this connects to JustAutomateX
+
+*"For a given customer, based on their past orders, what's the expected value of their next order?"* That's a linear regression problem — continuous number out — and directly useful for VD VSP planning and for prioritising outreach on high-value accounts.
 
 ---
 
