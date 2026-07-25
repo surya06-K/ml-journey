@@ -22,76 +22,185 @@
 #
 # ============================================================================
 # ANDREW NG — ML SPECIALIZATION COURSE 1, WEEK 2
+# "Regression with multiple input variables"
+# Ingested 2026-07-25 from user paste (screenshot of Coursera syllabus).
 # ============================================================================
-# Item IDs below are placeholders based on topics referenced in prior
-# planning conversation. Titles, ordering, and item count all require
-# verification via user_paste or chrome_read before any plan is generated.
-# All items intentionally left with duration_min: null and verified: false.
 
 items:
+  # --- Section: Multiple linear regression ---
   - id: c1w2_l1
     course: "Andrew Ng ML Spec Course 1"
     week: 2
-    title: null
+    title: "Multiple features"
     type: video
-    duration_min: null
-    verified: false
-    source: null
+    duration_min: 9
+    verified: true
+    source: user_paste
 
   - id: c1w2_l2
     course: "Andrew Ng ML Spec Course 1"
     week: 2
-    title: null
+    title: "Vectorization part 1"
     type: video
-    duration_min: null
-    verified: false
-    source: null
+    duration_min: 6
+    verified: true
+    source: user_paste
 
   - id: c1w2_l3
     course: "Andrew Ng ML Spec Course 1"
     week: 2
-    title: null
+    title: "Vectorization part 2"
     type: video
-    duration_min: null
-    verified: false
-    source: null
-
-  - id: c1w2_l4
-    course: "Andrew Ng ML Spec Course 1"
-    week: 2
-    title: null
-    type: video
-    duration_min: null
-    verified: false
-    source: null
+    duration_min: 6
+    verified: true
+    source: user_paste
 
   - id: c1w2_lab1
     course: "Andrew Ng ML Spec Course 1"
     week: 2
-    title: null
+    title: "Optional lab: Python, NumPy and vectorization"
     type: lab
-    duration_min: null
-    verified: false
-    source: null
+    duration_min: 60
+    verified: true
+    source: user_paste
 
+  - id: c1w2_l4
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Gradient descent for multiple linear regression"
+    type: video
+    duration_min: 7
+    verified: true
+    source: user_paste
+
+  - id: c1w2_lab2
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Optional Lab: Multiple linear regression"
+    type: lab
+    duration_min: 60
+    verified: true
+    source: user_paste
+
+  # --- Section: Practice quiz: Multiple linear regression ---
   - id: c1w2_quiz1
     course: "Andrew Ng ML Spec Course 1"
     week: 2
-    title: null
+    title: "Practice quiz: Multiple linear regression"
     type: quiz
     duration_min: null
     verified: false
-    source: null
+    source: user_paste
+    plan_excluded: true
+    # NOTE: source did not display a duration for this item — it showed
+    # "Graded Assignment • Grade: 100%" instead. Duration unknown.
+    # Excluded from plans per user decision 2026-07-25.
 
-# Additional items likely exist in Week 2 (more videos, more labs, practice
-# quizzes). Full item count is unknown until source ingestion. Do NOT add
-# entries based on Claude's recall.
+  # --- Section: Gradient descent in practice ---
+  - id: c1w2_l5
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Feature scaling part 1"
+    type: video
+    duration_min: 6
+    verified: true
+    source: user_paste
+
+  - id: c1w2_l6
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Feature scaling part 2"
+    type: video
+    duration_min: 7
+    verified: true
+    source: user_paste
+
+  - id: c1w2_l7
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Checking gradient descent for convergence"
+    type: video
+    duration_min: 5
+    verified: true
+    source: user_paste
+
+  - id: c1w2_l8
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Choosing the learning rate"
+    type: video
+    duration_min: 6
+    verified: true
+    source: user_paste
+
+  - id: c1w2_lab3
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Optional Lab: Feature scaling and learning rate"
+    type: lab
+    duration_min: 60
+    verified: true
+    source: user_paste
+
+  - id: c1w2_l9
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Feature engineering"
+    type: video
+    duration_min: 3
+    verified: true
+    source: user_paste
+
+  - id: c1w2_l10
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Polynomial regression"
+    type: video
+    duration_min: 5
+    verified: true
+    source: user_paste
+
+  - id: c1w2_lab4
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Optional lab: Feature engineering and Polynomial regression"
+    type: lab
+    duration_min: 60
+    verified: true
+    source: user_paste
+
+  - id: c1w2_lab5
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Optional lab: Linear regression with scikit-learn"
+    type: lab
+    duration_min: 60
+    verified: true
+    source: user_paste
+
+  # --- Section: Practice quiz: Gradient descent in practice ---
+  - id: c1w2_quiz2
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Practice quiz: Gradient descent in practice"
+    type: quiz
+    duration_min: 30
+    verified: true
+    source: user_paste
+
+  # --- Section: Week 2 practice lab: Linear regression ---
+  - id: c1w2_lab6
+    course: "Andrew Ng ML Spec Course 1"
+    week: 2
+    title: "Week 2 practice lab: Linear regression"
+    type: practice
+    duration_min: 180
+    verified: true
+    source: user_paste
 
 # ============================================================================
 # SELF-DIRECTED DRILLS (my own practice, not course content)
 # ============================================================================
-# These are budgeted separately per Rule 4 and never blended into
-# course-item time. duration_min here reflects my own planned time for the
-# drill, not a Coursera figure — verified: true because I set it.
+# Budgeted separately per Rule 4 and never blended into course-item time.
 
 drills: []

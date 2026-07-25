@@ -1,7 +1,7 @@
 # Week 3 — Multiple features and vectorization
 
 **Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1, Week 2)
-**Status:** 🔄 In progress — Day 1 done
+**Status:** 🔄 In progress — Days 1-3 done
 
 ---
 
@@ -77,15 +77,66 @@ Together this is often 10–100× faster than the equivalent loop.
 
 ---
 
-## Day 2 — Feature scaling  *(pending)*
+## Day 2 — Convergence, learning rate, feature scaling  ✅
 
-Why models converge faster when features are on similar scales. What breaks when one feature ranges 0–1 and another ranges 0–10,000.
+### Checking gradient descent for convergence
+
+Two ways to tell if gradient descent has converged:
+
+1. **Learning curve plot** (recommended): plot cost J vs. iteration number. When the curve flattens out, you've converged. Ng recommends this over the automatic test because it's visual and hard to misread.
+2. **Automatic convergence test**: pick a small ε (e.g. 10⁻³). If J decreases by less than ε in one iteration, declare convergence. Problem: choosing the right ε is tricky, so the plot is more reliable in practice.
+
+**Key insight:** if J *ever increases* during training, something is wrong — most likely α is too large.
+
+### Choosing the learning rate
+
+If cost goes up (or bounces around) during gradient descent → **α is too large**. The updates overshoot the minimum.
+
+Fix: reduce α. Ng's method — try values on a log scale: `0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0` and pick the largest α where J decreases consistently every iteration.
+
+- Too small α → works but crawls (thousands of extra iterations).
+- Too large α → diverges or oscillates.
+
+### Feature scaling
+
+When one feature ranges 0–1 and another ranges 0–10,000, gradient descent zigzags — the large-range feature dominates the cost landscape. Scaling all features to similar ranges makes the contours more circular, so gradient descent takes a more direct path.
+
+Three methods:
+
+- **Divide by max:** x / max(x) → range [0, 1]
+- **Mean normalisation:** (x - μ) / (max - min)
+- **Z-score normalisation:** (x - μ) / σ → roughly [-3, 3]
+
+### What I got wrong on Day 2 quiz
+
+- Said cost going up is a scaling problem. It's not — it's **learning rate too large**. Feature scaling helps convergence *speed*, but doesn't cause cost to increase.
 
 ---
 
-## Day 3 — Feature engineering + polynomial regression  *(pending)*
+## Day 3 — Feature engineering + polynomial regression  ✅
 
-Creating new features from existing ones. Fitting curves, not just lines.
+### Feature engineering
+
+Creating new features from existing ones that better capture the real relationship.
+
+**Example:** you have `frontage` (lot width) and `depth` (lot length). Instead of giving the model two features, create one: `area = frontage × depth`. Price depends on total area, not width and depth independently — so one engineered feature works better than two raw ones.
+
+This is a judgment call, not an algorithm. You decide what to combine based on what you know about the problem.
+
+### Polynomial regression
+
+A straight line (`wx + b`) can only go up or down. If the data curves — prices plateau after a certain size, growth tapers off — a line will always underfit.
+
+Fix: add polynomial terms.
+
+```
+f(x) = w₁x + w₂x² + b          # can fit parabolas
+f(x) = w₁x + w₂x² + w₃x³ + b  # can fit S-curves
+```
+
+The model is still *linear regression* — it's linear in the *parameters* (w₁, w₂, w₃). The features just happen to be powers of x.
+
+**⚠️ Feature scaling is critical here.** If x = 1000, then x² = 1,000,000 and x³ = 1,000,000,000. Without scaling, the polynomial features will completely dominate and gradient descent will struggle.
 
 ---
 
@@ -106,6 +157,9 @@ At JustAutomateX, everything I care about has *multiple* features per record —
 - [x] Can write the model in long form and vector form
 - [x] Can state the shapes of X, w, b, and predictions
 - [x] Can explain why vectorisation is faster (3 reasons)
-- [ ] Feature scaling — Day 2
-- [ ] Feature engineering + polynomial regression — Day 3
+- [x] Convergence check — plot J vs iteration, or ε test
+- [x] Learning rate — too big = cost goes up, try log scale
+- [x] Feature scaling — 3 methods (max, mean norm, z-score)
+- [x] Feature engineering — combine raw features (frontage × depth = area)
+- [x] Polynomial regression — add x², x³ to fit curves, must scale
 - [ ] Extend the from-scratch code to multiple features — Day 4

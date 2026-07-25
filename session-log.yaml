@@ -18,4 +18,11 @@
 #          next session is blocked until logged.
 # RULE 8c: After every 5th completed entry, run Rule 6 recalibration.
 
-sessions: []
+sessions:
+  - date: 2026-07-25
+    items: [c1w2_l7, c1w2_l8, c1w2_l9, c1w2_l10]
+    planned_min: 19
+    actual_min: 30
+    difficulty: right
+    notes: null
+    status: completed
