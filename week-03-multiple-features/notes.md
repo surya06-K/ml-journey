@@ -1,7 +1,7 @@
 # Week 3 — Multiple features and vectorization
 
 **Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1, Week 2)
-**Status:** 🔄 In progress — Days 1-3 done
+**Status:** ✅ Complete — all 4 days done
 
 ---
 
@@ -140,9 +140,24 @@ The model is still *linear regression* — it's linear in the *parameters* (w₁
 
 ---
 
-## Day 4 — Extend from-scratch code to n features  *(pending)*
+## Day 4 — Extend from-scratch code to n features  ✅
 
-Rewrite `cost_function_from_scratch.py` (or add a new file) to handle `X` (matrix) and `w` (vector) instead of scalars.
+See [`multi_feature_regression.py`](multi_feature_regression.py) — 6/6 tests passing.
+
+### What changed from Week 2's scalar version
+
+| Function | Week 2 (scalar) | Week 3 (matrix) |
+|---|---|---|
+| `predict` | `w * x + b` | `X @ w + b` |
+| `compute_cost` | identical | identical (predict handles the shape) |
+| `compute_gradient` dj_dw | `np.sum(errors * x) / m` → scalar | `X.T @ errors / m` → vector (n,) |
+| `gradient_descent` | `w = w - alpha * dj_dw` (scalar) | same line, but NumPy does element-wise on vectors automatically |
+
+### The key insight
+
+`X.T @ errors` is the multi-feature gradient in one shot. Transpose flips X from (m,n) to (n,m), then `(n,m) @ (m,) = (n,)` — one gradient per feature. No loop over features needed.
+
+Also used `w_init.copy()` instead of `w = w_init` — because w is now an array, and assignment would make both names point to the same object. Mutating w would silently corrupt w_init.
 
 ---
 
@@ -162,4 +177,4 @@ At JustAutomateX, everything I care about has *multiple* features per record —
 - [x] Feature scaling — 3 methods (max, mean norm, z-score)
 - [x] Feature engineering — combine raw features (frontage × depth = area)
 - [x] Polynomial regression — add x², x³ to fit curves, must scale
-- [ ] Extend the from-scratch code to multiple features — Day 4
+- [x] Extend the from-scratch code to multiple features — 6/6 passing
