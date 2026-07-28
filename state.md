@@ -1,6 +1,6 @@
 # Surya — ML Learning State File
 
-Last updated: 2026-07-26
+Last updated: 2026-07-28
 
 ## Background
 
@@ -10,11 +10,11 @@ Ships production AI daily but treated models as black boxes until starting this 
 
 ## Where he is on the 24-week roadmap
 
-**Week 3 of 24. Phase 1 (Andrew Ng ML Spec Course 1).**
+**Week 3 complete. Phase 1 (Andrew Ng ML Spec Course 1).**
 
-All 10 Course 1 Week 2 videos watched. Zero Coursera labs completed for this week. No from-scratch multi-feature implementation yet.
+All 10 Course 1 Week 2 videos watched. All 4 days of Week 3 notes done. Multi-feature regression implemented from scratch (6/6 tests passing). Zero Coursera labs completed yet. Course 1 Week 1 graded quiz still pending (low priority).
 
-Course 1 Week 1 graded quiz also still pending (low priority).
+Next up: Coursera labs (c1w2_lab1–lab6), quizzes, then Week 4 (logistic regression — needs Course 1 Week 3 syllabus ingested first).
 
 ## Topics genuinely internalized
 
@@ -50,7 +50,10 @@ These he can explain cold, has been quizzed on, and answered correctly (or corre
 
 2. **Week 1 self-test** — 25 questions (8 NumPy, 9 Pandas, 8 intro ML), passed on first attempt
 
-No multi-feature implementation yet. That's the next code drill (Week 3 Day 4).
+3. **`multi_feature_regression.py`** — [`week-03-multiple-features/multi_feature_regression.py`](week-03-multiple-features/multi_feature_regression.py)
+   - `predict()`, `compute_cost()`, `compute_gradient()`, `gradient_descent()` extended to matrix X and vector w
+   - 6/6 tests passing
+   - Key insight locked in: `X.T @ errors / m` gives one gradient per feature in one shot
 
 ## Mistakes he's been corrected on (likely to repeat)
 
@@ -100,14 +103,12 @@ One session logged so far: 2026-07-25, 4 videos, planned 19m, actual 30m, diffic
 
 ## Open loops
 
-1. **Coursera labs (5 remaining):** c1w2_lab1 through c1w2_lab5 (60m each in syllabus, 2.0× multiplier = 120m budget each). These individually overflow a 30-min session. Need to discuss how to chunk them.
-2. **c1w2_lab6:** "Week 2 practice lab: Linear regression" — 180m in syllabus. The capstone lab.
-3. **c1w2_quiz2:** "Practice quiz: Gradient descent in practice" — 30m × 1.5 = 45m budget.
-4. **Week 3 Day 4:** Extend `cost_function_from_scratch.py` to handle X (matrix) and w (vector). Not started.
-5. **Course 1 Week 1 graded quiz:** still pending, low priority.
-6. **3B1B linear algebra ch. 3-5:** slipping, flagged but not addressed.
-7. **Prospect data collection:** he needs to build a Google Sheet with 9 qualification-framework columns + converted (0/1) for the post-Week-4 mini-project (prospect scoring with logistic regression).
-8. **README.md is stale:** still says "Currently on: Week 2" and roadmap checkboxes are behind actual progress.
+1. **3B1B linear algebra ch. 3-5:** slipping, flagged but not addressed.
+2. **3B1B calculus ch. 5 (Euler's number):** critical before Week 4 — needed for sigmoid function in logistic regression.
+3. **Prospect data collection:** he needs to build a Google Sheet with 9 qualification-framework columns + converted (0/1) for the post-Week-4 mini-project (prospect scoring with logistic regression).
+4. **Course 1 Week 3 syllabus:** must be ingested into ml-syllabus.yaml before any Week 4 planning (Rule 2).
+
+All Coursera labs (c1w2_lab1–lab6), quizzes (c1w2_quiz2, C1W1 graded quiz) completed as of 2026-07-28.
 
 ## How to work with him
 

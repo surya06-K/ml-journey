@@ -2,7 +2,7 @@
 
 A 24-week, build-first path from shipping LLM applications to understanding and training the models underneath them — documented week by week, in public.
 
-**Currently on: Week 2 — linear regression and the cost function**
+**Currently on: Week 3 complete — starting Week 4 (logistic regression) next**
 
 ---
 
@@ -31,9 +31,9 @@ Andrew Ng, Machine Learning Specialization
 
 - [x] Linear regression model
 - [x] Cost function (squared error)
-- [ ] Gradient descent
-- [ ] Multiple linear regression, vectorization
-- [ ] Feature scaling and feature engineering
+- [x] Gradient descent
+- [x] Multiple linear regression, vectorization
+- [x] Feature scaling and feature engineering
 - [ ] Logistic regression and classification
 - [ ] Overfitting and regularization
 - [ ] **Mini-project:** regression on real client order data
@@ -78,7 +78,8 @@ Hugging Face LLM Course
 | Week | Topic | Notes | Status |
 |---|---|---|---|
 | 01 | Foundations — NumPy, Pandas, intro ML | [notes](week-01-foundations/notes.md) | ✅ Complete |
-| 02 | Linear regression and the cost function | [notes](week-02-linear-regression/notes.md) | 🔄 In progress |
+| 02 | Linear regression and the cost function | [notes](week-02-linear-regression/notes.md) | ✅ Complete |
+| 03 | Multiple features, scaling, engineering | [notes](week-03-multiple-features/notes.md) | ✅ Complete |
 
 ---
 

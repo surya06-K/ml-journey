@@ -258,5 +258,6 @@ Update this section as weeks complete. Newest entry at the top.
 
 | Week | Topic | Completed | Notes |
 |---|---|---|---|
-| 02 | Linear regression + cost function | in progress | gradient descent next |
+| 03 | Multiple features, scaling, engineering | July 2026 | 6/6 from-scratch, all 4 days done |
+| 02 | Linear regression + cost function | July 2026 | 5/5 from-scratch, gradient descent drilled |
 | 01 | Foundations — NumPy, Pandas, intro ML | July 2026 | self-test passed |
