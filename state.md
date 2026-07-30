@@ -10,11 +10,13 @@ Ships production AI daily but treated models as black boxes until starting this 
 
 ## Where he is on the 24-week roadmap
 
-**Week 3 complete. Phase 1 (Andrew Ng ML Spec Course 1).**
+**Week 4 Day 1 done (logistic regression — classification, sigmoid, decision boundary). Phase 1 (Andrew Ng ML Spec Course 1).**
 
-All 10 Course 1 Week 2 videos watched. All 4 days of Week 3 notes done. Multi-feature regression implemented from scratch (6/6 tests passing). Zero Coursera labs completed yet. Course 1 Week 1 graded quiz still pending (low priority).
+Week 3 fully complete: all videos, all Coursera labs (c1w2_lab1–lab6), all quizzes (c1w2_quiz2 + C1W1 graded quiz), multi-feature regression from scratch (6/6). Week 4 Day 1 covered but NOT yet in session-log.yaml — C1 Week 3 syllabus isn't ingested, so no item id exists (Rule 1). Notes for Week 4 Day 1 not written yet (user chose to log-and-move-on).
 
-Next up: Coursera labs (c1w2_lab1–lab6), quizzes, then Week 4 (logistic regression — needs Course 1 Week 3 syllabus ingested first).
+Math track (see math-track.md): linear algebra 3B1B ch. 1–5 done, calculus 3B1B ch. 1–5 done (including ch. 4 chain rule and ch. 5 Euler's). All math prerequisites through Phase 3 cleared. Only near-term pull is StatQuest probability/MLE when Week 4 Day 2 hits log loss.
+
+Next up: ingest C1 Week 3 syllabus into ml-syllabus.yaml, then continue Week 4 (cost function / log loss, gradient descent, from-scratch implementation).
 
 ## Topics genuinely internalized
 
@@ -68,6 +70,10 @@ These he can explain cold, has been quizzed on, and answered correctly (or corre
 5. **Jupyter kernel state.** Ran cells out of order, got nonsense. Now knows Restart + Run All is step one. But it'll happen again.
 
 6. **Forgetting to activate venv.** "No module named numpy" — trained him, but it's a habit that needs reinforcement.
+
+7. **Sigmoid outputs 0 or 1.** (Week 4 Day 1) Thought the sigmoid itself produces the class. Corrected: it outputs a *probability* in (0,1); the 0/1 comes from a *separate* thresholding step at 0.5. Squash vs decide are two steps.
+
+8. **Decision boundary shifts with new data.** (Week 4 Day 1) Thought the boundary "emerges/redefines" when a new point is added. Corrected: it's fixed by the trained w and b (the line w·x + b = 0); new points are classified *against* it, they don't move it.
 
 ## His mental model of gradient descent (in his own words, from quizzes)
 

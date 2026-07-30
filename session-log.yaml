@@ -26,3 +26,11 @@ sessions:
     difficulty: right
     notes: null
     status: completed
+
+  - date: 2026-07-28
+    items: [c1w2_lab1, c1w2_lab2, c1w2_lab3, c1w2_lab4, c1w2_lab5, c1w2_lab6, c1w2_quiz2]
+    planned_min: null
+    actual_min: 150
+    difficulty: right
+    notes: "Self-directed catch-up — no Rule 4 plan existed for these items, so planned_min is null and this entry is excluded from lab/quiz multiplier calibration."
+    status: completed
