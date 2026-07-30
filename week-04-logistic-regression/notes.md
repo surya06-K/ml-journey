@@ -104,6 +104,56 @@ That equation **is** the decision boundary. It splits the feature space:
 
 ---
 
+## Day 2 — The cost function (log loss)  ✅
+
+### Why squared error from Week 2 doesn't work here
+
+In Week 2 the cost `J = (1/2m)·Σ(ŷ − y)²` gave a clean **convex** bowl — one
+minimum, gradient descent always finds it. Now `ŷ = σ(w·x + b)`. Put that
+sigmoid inside the squared-error formula and the cost surface becomes
+**non-convex** — a wavy landscape with multiple dips. Gradient descent settles
+into a **local minimum** that isn't the true global one. So squared error is
+out: not "wrong," but it makes the optimization unsolvable.
+
+### What replaces it: log loss (cross-entropy)
+
+Loss for a single example, split by the true label:
+
+- if y = 1:  loss = −log(f(x))
+- if y = 0:  loss = −log(1 − f(x))
+
+**The behaviour that matters — punish confident-wrong hard.** Say truth = 1:
+
+| Model predicts | Meaning | −log(pred) penalty |
+|---|---|---|
+| 0.99 | confident, right | ≈ 0.01 (almost none) |
+| 0.50 | unsure | ≈ 0.69 (moderate) |
+| 0.02 | confident, WRONG | ≈ 3.9 (huge) |
+
+As the prediction heads toward the wrong extreme, the −log curve rockets toward
+infinity, so the cost value blows up. That's exactly what we want: a
+confidently-wrong prediction should be scored as very bad, because it drives
+worse decisions (in lead scoring: trashing a lead that actually converts).
+
+**Key distinction (same as f vs J):** log loss doesn't *give an answer* — it
+*scores* how bad a prediction was. Confident-wrong → near-infinite **cost**,
+which then drives gradient descent to correct hard.
+
+### The combined formula
+
+Because y is always 0 or 1, both cases fold into one line (one term always
+zeroes out):
+
+$$J(w,b) = -\frac{1}{m}\sum_{i=1}^{m}\left[ y^{(i)}\log(f(x^{(i)})) + (1-y^{(i)})\log(1-f(x^{(i)})) \right]$$
+
+- when y = 1 → the `(1−y)` term dies, leaving −log(f(x))
+- when y = 0 → the `y` term dies, leaving −log(1−f(x))
+
+And crucially: this cost **is convex** for logistic regression, so gradient
+descent works again — one global minimum, no bad dips.
+
+---
+
 ## Self-check
 
 - [x] Explain why linear regression fails for 0/1 problems (unbounded output + outlier sensitivity)
@@ -111,6 +161,8 @@ That equation **is** the decision boundary. It splits the feature space:
 - [x] State that the sigmoid outputs a probability, not a class
 - [x] Write the logistic regression model f(x) = σ(w·x + b)
 - [x] Define the decision boundary as w·x + b = 0 and know it's fixed by w, b
-- [ ] Day 2 — the cost function (why squared error breaks, what replaces it)
+- [x] Explain why squared error breaks (non-convex → local minima)
+- [x] Log loss punishes confident-wrong predictions with near-infinite cost
+- [x] Write the combined log-loss formula and know why it's convex
 - [ ] Day 3 — gradient descent for logistic regression
 - [ ] Day 4 — from-scratch implementation
