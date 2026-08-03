@@ -154,6 +154,63 @@ descent works again — one global minimum, no bad dips.
 
 ---
 
+## Day 3 — Gradient descent for logistic regression  ✅
+
+### The surprise: the gradient equations are identical in form
+
+Update rule is unchanged: `w = w − α·(∂J/∂w)`, `b = b − α·(∂J/∂b)`, updated
+simultaneously. And the gradients themselves come out looking **exactly like
+linear regression's**:
+
+$$\frac{\partial J}{\partial w} = \frac{1}{m}\sum_{i=1}^{m}(f(x^{(i)}) - y^{(i)})\,x^{(i)}$$
+$$\frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}^{m}(f(x^{(i)}) - y^{(i)})$$
+
+**The only difference is what f(x) is:**
+
+- Linear regression: `f(x) = w·x + b`
+- Logistic regression: `f(x) = g(z) = σ(w·x + b)` — the same z, wrapped in the sigmoid
+
+So I write the *same equation*, but because f plugs in a different value, the
+actual numbers differ. Same shape, different guts. (It's not a coincidence —
+the log-loss cost was chosen partly so the derivative comes out this clean.)
+
+Practical upshot for the from-scratch code: `compute_gradient` is basically
+copy-paste from Week 3 — the only change is that `predict` runs the result
+through a sigmoid.
+
+---
+
+## Overfitting  ✅
+
+### What it is
+
+The model gets **low cost on the training data** but **high cost on new,
+unseen data**. It didn't learn the real pattern — it memorized the training
+set's noise and quirks. The precise term: it **fails to generalize**.
+
+**The tell:** a big gap between training performance and test/new-data
+performance. Great on training, bad on everything else → overfitting. (The
+opposite — bad on both — is underfitting.)
+
+**It doesn't error or crash.** It runs fine and returns predictions; they're
+just wrong on data it hasn't seen, because it fit the training noise instead of
+the signal.
+
+### Three ways to fix it
+
+1. **More training data** — more examples make the noise average out, so the
+   model is forced to learn the actual pattern.
+2. **Fewer / selected features** — drop features that don't matter. Fewer knobs
+   to overfit with (feature selection).
+3. **Regularization** — keep all features but shrink the weights so no single
+   one dominates. (This is the course's next section — the *how* comes there.)
+
+Anchored to lead scoring: a model that perfectly "predicts" every past prospect
+but flops on next month's leads has overfit — it memorized who converted last
+quarter instead of learning what makes a lead good.
+
+---
+
 ## Self-check
 
 - [x] Explain why linear regression fails for 0/1 problems (unbounded output + outlier sensitivity)
@@ -164,5 +221,8 @@ descent works again — one global minimum, no bad dips.
 - [x] Explain why squared error breaks (non-convex → local minima)
 - [x] Log loss punishes confident-wrong predictions with near-infinite cost
 - [x] Write the combined log-loss formula and know why it's convex
-- [ ] Day 3 — gradient descent for logistic regression
-- [ ] Day 4 — from-scratch implementation
+- [x] Gradient equations identical in form to linear regression; only f(x) changes (sigmoid)
+- [x] Overfitting = low training cost, high new-data cost; failure to generalize
+- [x] Three fixes: more data, fewer features, regularization
+- [ ] Regularization — the *how* (cost penalty, regularized gradient descent)
+- [ ] Day 4 — from-scratch implementation (logistic_regression_from_scratch.py)
