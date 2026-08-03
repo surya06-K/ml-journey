@@ -75,6 +75,8 @@ These he can explain cold, has been quizzed on, and answered correctly (or corre
 
 8. **Decision boundary shifts with new data.** (Week 4 Day 1) Thought the boundary "emerges/redefines" when a new point is added. Corrected: it's fixed by the trained w and b (the line w·x + b = 0); new points are classified *against* it, they don't move it.
 
+9. **Conflates two different graphs.** (Week 4 regularization) Tied "big weights" to "local minima on the cost surface." Corrected: big weights make the *model function* f(x)-vs-x wiggly (overfitting); local minima live on the *cost surface* J-vs-(w,b) and were a separate problem already solved by log loss. Regularization smooths the model function and keeps cost convex — nothing to do with local minima. Watch for this graph-confusion recurring.
+
 ## His mental model of gradient descent (in his own words, from quizzes)
 
 > "I'm standing on a hilly cost surface in fog. I can't see the whole landscape but I can feel the slope under my feet. Feel which way is downhill, take a small step, repeat."

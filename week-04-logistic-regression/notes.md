@@ -211,6 +211,56 @@ quarter instead of learning what makes a lead good.
 
 ---
 
+## Regularization — the fix for overfitting  ✅
+
+### The intuition
+
+Overfitting usually shows up as **huge weights**. Big `w` values let the model
+function contort itself to pass through every training point → a wild, wiggly
+**prediction curve**. Regularization adds a penalty for large weights, so
+gradient descent now does two jobs at once: fit the data *and* keep weights
+small. Smaller weights → smoother function → doesn't chase noise.
+
+**⚠️ Two different graphs — don't confuse them (I did):**
+
+- **Model function `f(x)` vs input `x`:** big weights make THIS wiggly. That's
+  overfitting. Regularization smooths this by shrinking weights.
+- **Cost surface `J` vs parameters `(w,b)`:** this is where "local vs global
+  minimum" lives. That was a *separate* problem (squared-error + sigmoid),
+  already fixed by switching to log loss. Regularization has **nothing to do
+  with local minima** — in fact it keeps the cost convex.
+
+Big weights → wrinkly prediction curve. NOT → local minima. Different graphs.
+
+### The math — one extra term on the cost
+
+$$J(w,b) = \underbrace{\text{(original cost)}}_{\text{fit the data}} + \underbrace{\frac{\lambda}{2m}\sum_{j=1}^{n} w_j^2}_{\text{keep weights small}}$$
+
+- **Penalize `w`, not `b`.** The bias barely affects overfitting, so it's left
+  out by convention.
+- **λ (lambda) is the dial:**
+  - λ = 0 → no penalty → back to overfitting-prone model (wiggly)
+  - λ too big → weights crushed ≈ 0 → model goes almost **flat** → **underfitting**
+  - sweet spot in the middle — tune λ to balance the two
+
+### Effect on gradient descent
+
+The `w` update gets one extra shrink term from the penalty's derivative:
+
+$$w_j = w_j - \alpha\left[\frac{1}{m}\sum(f(x)-y)x_j + \frac{\lambda}{m}w_j\right]$$
+
+The new `(λ/m)·w_j` pulls each weight toward zero on every step, unless the data
+pushes back. The `b` update is unchanged (no penalty on b). This works the same
+way for both regularized linear and regularized logistic regression — only the
+`f(x)` inside differs.
+
+Anchored to lead scoring: if the model slaps a massive weight on one feature
+(e.g. "downloaded pricing PDF") because it happened to correlate perfectly in a
+small training set, regularization pulls that weight back so one lucky feature
+can't dominate next month's predictions.
+
+---
+
 ## Self-check
 
 - [x] Explain why linear regression fails for 0/1 problems (unbounded output + outlier sensitivity)
@@ -224,5 +274,8 @@ quarter instead of learning what makes a lead good.
 - [x] Gradient equations identical in form to linear regression; only f(x) changes (sigmoid)
 - [x] Overfitting = low training cost, high new-data cost; failure to generalize
 - [x] Three fixes: more data, fewer features, regularization
-- [ ] Regularization — the *how* (cost penalty, regularized gradient descent)
+- [x] Regularization penalizes large weights (λ/2m · Σw²), penalize w not b
+- [x] λ too small → overfit (wiggly); λ too big → underfit (flat)
+- [x] Regularized gradient adds a (λ/m)·w shrink term; b unchanged
+- [x] Don't confuse model-function wiggle (overfit) with cost-surface local minima (separate, solved by log loss)
 - [ ] Day 4 — from-scratch implementation (logistic_regression_from_scratch.py)
