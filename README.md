@@ -2,7 +2,7 @@
 
 A 24-week, build-first path from shipping LLM applications to understanding and training the models underneath them — documented week by week, in public.
 
-**Currently on: Week 3 complete — starting Week 4 (logistic regression) next**
+**Currently on: Week 4 complete — logistic regression, classification, regularization**
 
 ---
 
@@ -34,8 +34,8 @@ Andrew Ng, Machine Learning Specialization
 - [x] Gradient descent
 - [x] Multiple linear regression, vectorization
 - [x] Feature scaling and feature engineering
-- [ ] Logistic regression and classification
-- [ ] Overfitting and regularization
+- [x] Logistic regression and classification
+- [x] Overfitting and regularization
 - [ ] **Mini-project:** regression on real client order data
 
 ### Phase 2 — Math foundations (parallel with Phase 1) 🔄
@@ -80,6 +80,7 @@ Hugging Face LLM Course
 | 01 | Foundations — NumPy, Pandas, intro ML | [notes](week-01-foundations/notes.md) | ✅ Complete |
 | 02 | Linear regression and the cost function | [notes](week-02-linear-regression/notes.md) | ✅ Complete |
 | 03 | Multiple features, scaling, engineering | [notes](week-03-multiple-features/notes.md) | ✅ Complete |
+| 04 | Logistic regression, classification, regularization | [notes](week-04-logistic-regression/notes.md) | ✅ Complete |
 
 ---
 

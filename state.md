@@ -10,13 +10,13 @@ Ships production AI daily but treated models as black boxes until starting this 
 
 ## Where he is on the 24-week roadmap
 
-**Week 4 Day 1 done (logistic regression — classification, sigmoid, decision boundary). Phase 1 (Andrew Ng ML Spec Course 1).**
+**Week 4 complete. Phase 1 (Andrew Ng ML Spec Course 1) — Course 1 fully watched through regularization.**
 
-Week 3 fully complete: all videos, all Coursera labs (c1w2_lab1–lab6), all quizzes (c1w2_quiz2 + C1W1 graded quiz), multi-feature regression from scratch (6/6). Week 4 Day 1 covered but NOT yet in session-log.yaml — C1 Week 3 syllabus isn't ingested, so no item id exists (Rule 1). Notes for Week 4 Day 1 not written yet (user chose to log-and-move-on).
+Week 3 fully complete: all videos, all Coursera labs (c1w2_lab1–lab6), all quizzes, multi-feature regression from scratch (6/6). Week 4: full logistic regression — sigmoid, log loss, gradient descent, overfitting, regularization all covered and noted; logistic_regression_from_scratch.py implemented (6/6 passing, 100% train accuracy). C1 Week 3 syllabus still NOT ingested into ml-syllabus.yaml, so Week 4 sessions aren't formally logged (Rule 1).
 
-Math track (see math-track.md): linear algebra 3B1B ch. 1–5 done, calculus 3B1B ch. 1–5 done (including ch. 4 chain rule and ch. 5 Euler's). All math prerequisites through Phase 3 cleared. Only near-term pull is StatQuest probability/MLE when Week 4 Day 2 hits log loss.
+Math track (see math-track.md): linear algebra 3B1B ch. 1–5 done, calculus 3B1B ch. 1–5 done (including ch. 4 chain rule and ch. 5 Euler's). All math prerequisites through Phase 3 cleared.
 
-Next up: ingest C1 Week 3 syllabus into ml-syllabus.yaml, then continue Week 4 (cost function / log loss, gradient descent, from-scratch implementation).
+Next up: Phase 1 mini-project (regression and/or classification on real client data — he now has both tools). Prospect-data Google Sheet is the prerequisite. Then Karpathy (Phase 3) or remaining Course 2/3 depending on roadmap intent.
 
 ## Topics genuinely internalized
 

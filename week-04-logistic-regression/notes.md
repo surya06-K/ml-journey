@@ -1,7 +1,7 @@
 # Week 4 — Logistic regression and classification
 
 **Course:** Andrew Ng — Supervised Machine Learning: Regression and Classification (Course 1, Week 3)
-**Status:** 🔄 In progress — Day 1 done
+**Status:** ✅ Complete — sigmoid, log loss, gradient descent, regularization, from-scratch drill (6/6)
 
 ---
 
@@ -278,4 +278,4 @@ can't dominate next month's predictions.
 - [x] λ too small → overfit (wiggly); λ too big → underfit (flat)
 - [x] Regularized gradient adds a (λ/m)·w shrink term; b unchanged
 - [x] Don't confuse model-function wiggle (overfit) with cost-surface local minima (separate, solved by log loss)
-- [ ] Day 4 — from-scratch implementation (logistic_regression_from_scratch.py)
+- [x] Day 4 — from-scratch implementation (logistic_regression_from_scratch.py) — 6/6 passing, 100% train accuracy
