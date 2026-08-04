@@ -16,7 +16,7 @@ Week 3 fully complete: all videos, all Coursera labs (c1w2_lab1–lab6), all qui
 
 Math track (see math-track.md): linear algebra 3B1B ch. 1–5 done, calculus 3B1B ch. 1–5 done (including ch. 4 chain rule and ch. 5 Euler's). All math prerequisites through Phase 3 cleared.
 
-Next up: Phase 1 mini-project (regression and/or classification on real client data — he now has both tools). Prospect-data Google Sheet is the prerequisite. Then Karpathy (Phase 3) or remaining Course 2/3 depending on roadmap intent.
+Next up: Phase 1 mini-project — order-value regression on existing VD VSP Supabase data (see the mini-project decision section below). Then Karpathy (Phase 3) or remaining Course 2/3 depending on roadmap intent.
 
 ## Topics genuinely internalized
 
@@ -34,14 +34,20 @@ These he can explain cold, has been quizzed on, and answered correctly (or corre
 - **Feature scaling:** three methods (divide by max, mean normalisation, z-score). Knows *why* — unscaled features make contours elongated, gradient descent zigzags.
 - **Convergence checking:** learning curve plot (recommended) and automatic ε test.
 - **Learning rate selection:** log-scale search, pick largest α where J decreases consistently.
+- **Classification vs regression:** why linear regression fails on 0/1 (unbounded output, outlier-sensitive threshold).
+- **Sigmoid:** σ(z)=1/(1+e^(-z)) squashes any z into (0,1); outputs a *probability*, not a class. Corrected the misconception that sigmoid outputs 0/1 — the 0/1 comes from a separate threshold at 0.5.
+- **Logistic regression model + decision boundary:** f(x)=σ(w·x+b); boundary is w·x+b=0, fixed by trained w,b (corrected the idea it shifts with new data).
+- **Log loss (cross-entropy):** why squared error breaks (non-convex → local minima), why log loss punishes confident-wrong with near-infinite cost, combined formula, convex.
+- **Gradient descent for logistic regression:** gradient equations identical in FORM to linear regression; only f(x) changes (sigmoid). Drilled from scratch.
+- **Overfitting:** low train cost / high new-data cost = failure to generalize; three fixes (more data, fewer features, regularization).
+- **Regularization:** λ/2m·Σw² penalty on weights (not b); λ too small→overfit, too big→underfit. Regularized gradient adds (λ/m)·w shrink term. Corrected the two-graphs confusion (model-function wiggle vs cost-surface minima).
 
 ## Topics skimmed or explained to him (not yet drilled)
 
-- **Feature engineering:** understands the frontage × depth = area example but hasn't done a hands-on drill. Couldn't answer the quiz question about it — I explained it.
-- **Polynomial regression:** understands the concept (add x², x³ to fit curves, still linear in parameters, must scale). Couldn't answer the quiz question — I explained it. No code drill.
+- **Feature engineering:** understands the frontage × depth = area example but hasn't done a standalone hands-on drill (multi-feature code touched the mechanics). Originally couldn't answer the quiz — I explained it.
+- **Polynomial regression:** understands the concept (add x², x³ to fit curves, still linear in parameters, must scale). No dedicated code drill. Originally couldn't answer the quiz — I explained it.
 - **Decision trees / random forests:** knows "many trees average out mistakes" at a high level from Kaggle week. Not deeply tested.
-- **3Blue1B calculus (ch. 1-3):** watched, wrote one sentence about derivatives. Not drilled.
-- **3Blue1B linear algebra (ch. 3-5):** listed in the plan but slipping. No evidence of completion.
+- **StatQuest probability / MLE:** not yet watched. The "why log loss is the right cost" (maximum likelihood) is the one stats gap; pull it when the mini-project or a later week needs it.
 
 ## Drills completed with code
 
@@ -56,6 +62,12 @@ These he can explain cold, has been quizzed on, and answered correctly (or corre
    - `predict()`, `compute_cost()`, `compute_gradient()`, `gradient_descent()` extended to matrix X and vector w
    - 6/6 tests passing
    - Key insight locked in: `X.T @ errors / m` gives one gradient per feature in one shot
+
+4. **`logistic_regression_from_scratch.py`** — [`week-04-logistic-regression/logistic_regression_from_scratch.py`](week-04-logistic-regression/logistic_regression_from_scratch.py)
+   - `sigmoid()`, `predict()`, `compute_cost()` (log loss with np.clip), `compute_gradient()`, `gradient_descent()` in raw NumPy
+   - 6/6 tests passing, 100% train accuracy on separable data
+   - Proved the gradient is identical in form to linear regression — predict/gradient/GD were near copy-paste from Week 3; only sigmoid + log-loss line are new
+   - Caught reverting to Python built-in `sum` instead of `np.sum` (habit fix)
 
 ## Mistakes he's been corrected on (likely to repeat)
 
@@ -111,12 +123,28 @@ One session logged so far: 2026-07-25, 4 videos, planned 19m, actual 30m, diffic
 
 ## Open loops
 
-1. **3B1B linear algebra ch. 3-5:** slipping, flagged but not addressed.
-2. **3B1B calculus ch. 5 (Euler's number):** critical before Week 4 — needed for sigmoid function in logistic regression.
-3. **Prospect data collection:** he needs to build a Google Sheet with 9 qualification-framework columns + converted (0/1) for the post-Week-4 mini-project (prospect scoring with logistic regression).
-4. **Course 1 Week 3 syllabus:** must be ingested into ml-syllabus.yaml before any Week 4 planning (Rule 2).
+1. **Course 1 Week 3 syllabus:** not yet ingested into ml-syllabus.yaml. Needed before any Week 4 session can be formally logged (Rule 1/2). Week 4 content is done but its sessions aren't in session-log.yaml for this reason.
+2. **StatQuest probability/MLE:** watch when the mini-project or a later week needs it. Only remaining near-term math pull.
 
-All Coursera labs (c1w2_lab1–lab6), quizzes (c1w2_quiz2, C1W1 graded quiz) completed as of 2026-07-28.
+Math track (linear algebra + calculus 3B1B ch. 1–5) fully done. All Coursera labs (c1w2_lab1–lab6) and quizzes completed as of 2026-07-28.
+
+## Phase 1 mini-project — DECISION (2026-08-04)
+
+**Pivoted the mini-project from prospect scoring to order-value regression on real, already-existing client data.**
+
+- **Why the pivot:** prospect scoring needed weeks of data collection (a Google Sheet of 9 qualification columns + converted 0/1) that he never started. Instead of blocking on collection, use data that already exists: the **VD VSP order-intake system** (896 SKUs, WhatsApp → PDF quotation) already writes real orders to **Supabase** every day. No collection needed.
+- **The project:** regression to predict an order's total value (or quantity) from its features — customer, SKU(s), timing, order size. This IS the roadmap's stated Phase 1 project ("regression on real client order data") and uses the linear/multiple regression he already built from scratch. Business framing = agency case study: a model on a client's live order history that predicts order value.
+- **Prospect scoring is deferred, not dropped** — could still become a later classification case study once data accrues.
+- **Privacy:** client data stays local. `.gitignore` already blocks `*.csv`, so only the notebook + findings get committed, never raw order data.
+
+**Blocking questions before scoping the pipeline (asked, awaiting his answers):**
+1. One row per *order*, or one row per *line item* (SKU within an order)?
+2. What columns exist — date, customer, SKU, quantity, price, total, delivery area, payment status?
+3. Rough row count — dozens, hundreds, or thousands of orders?
+
+**First step for him:** export a CSV from Supabase and drop it in `~/ml-journey/`. Fallback if prod export is a hassle today: generate a realistic stand-in modeled on his real schema, build the identical pipeline, swap in real data later.
+
+**Planned pipeline once data lands:** clean → EDA → from-scratch model (raw NumPy per his rule) → sklearn check → business-framed writeup for the repo.
 
 ## How to work with him
 
