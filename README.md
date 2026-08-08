@@ -36,12 +36,12 @@ Andrew Ng, Machine Learning Specialization
 - [x] Feature scaling and feature engineering
 - [x] Logistic regression and classification
 - [x] Overfitting and regularization
-- [ ] **Mini-project:** regression on real client order data
+- [x] **Mini-project:** [lead scoring with logistic regression](mini-project-lead-scoring/) — from-scratch on UCI Bank Marketing (41k rows, F1=0.47 at tuned threshold)
 
 ### Phase 2 — Math foundations (parallel with Phase 1) 🔄
 
-- [ ] Linear algebra — vectors, matrices, transformations
-- [ ] Calculus — derivatives, gradients, the chain rule
+- [x] Linear algebra — vectors, matrices, transformations (3B1B ch. 1–5)
+- [x] Calculus — derivatives, gradients, the chain rule (3B1B ch. 1–5)
 - [ ] Probability and statistics
 
 ### Phase 3 — Deep learning (Weeks 9–16)

@@ -1,10 +1,10 @@
 # Surya — ML Learning State File
 
-Last updated: 2026-07-28
+Last updated: 2026-08-08
 
 ## Background
 
-B.Tech CS at BITS Pilani Hyderabad. Solo founder of JustAutomateX (AI automation agency for Indian SMBs). Two live production clients: SREE (field service reports) and VD VSP (896-SKU WhatsApp order intake → PDF quotation). Stack: self-hosted n8n on Hetzner, Groq (llama-3.3-70b), Gemini 2.5 Flash, WhatsApp Cloud API, Supabase pgvector, Next.js.
+B.Tech CS at BITS Pilani Hyderabad. Solo founder of JustAutomateX (AI automation agency for Indian SMBs). Two live production clients: SREE (field service reports) and VD VSP — a dairy cooperative whose BCC staff across Andhra Pradesh file internal spare-parts requisition/usage reports via a searchable 896-item HTML form (`storemanagement.niat.tech`) → n8n webhook → PDF (PDFShift/pd.co) → Gmail → Google Sheets log. (Note: VD VSP is NOT WhatsApp or Supabase-based — that's a separate hackathon demo and a different RAG project respectively.) Broader stack across projects: self-hosted n8n on Hetzner, Groq (llama-3.3-70b), Gemini 2.5 Flash, WhatsApp Cloud API, Supabase pgvector, Next.js.
 
 Ships production AI daily but treated models as black boxes until starting this roadmap. Python/JS fluent. No DSA interview track — not pursuing that.
 
@@ -16,7 +16,7 @@ Week 3 fully complete: all videos, all Coursera labs (c1w2_lab1–lab6), all qui
 
 Math track (see math-track.md): linear algebra 3B1B ch. 1–5 done, calculus 3B1B ch. 1–5 done (including ch. 4 chain rule and ch. 5 Euler's). All math prerequisites through Phase 3 cleared.
 
-Next up: Phase 1 mini-project — order-value regression on existing VD VSP Supabase data (see the mini-project decision section below). Then Karpathy (Phase 3) or remaining Course 2/3 depending on roadmap intent.
+Phase 1 mini-project COMPLETE — lead scoring with logistic regression on UCI Bank Marketing data (41k rows). From-scratch NumPy logistic regression, full EDA, threshold tuning. Best F1=0.471 at t=0.2 (precision 0.409, recall 0.555). Regularization tested (λ=1,10), no improvement — bottleneck is class imbalance, not overfitting. Next up: Karpathy (Phase 3) or remaining Course 2/3 depending on roadmap intent.
 
 ## Topics genuinely internalized
 
@@ -128,23 +128,32 @@ One session logged so far: 2026-07-25, 4 videos, planned 19m, actual 30m, diffic
 
 Math track (linear algebra + calculus 3B1B ch. 1–5) fully done. All Coursera labs (c1w2_lab1–lab6) and quizzes completed as of 2026-07-28.
 
-## Phase 1 mini-project — DECISION (2026-08-04)
+## Phase 1 mini-project — DECISION (2026-08-04, revised)
 
-**Pivoted the mini-project from prospect scoring to order-value regression on real, already-existing client data.**
+**Theme: spare-parts demand forecasting for VD VSP.** (Revised after pulling the real VD VSP project details from the client-project chat — the first framing was built on wrong assumptions; corrected below.)
 
-- **Why the pivot:** prospect scoring needed weeks of data collection (a Google Sheet of 9 qualification columns + converted 0/1) that he never started. Instead of blocking on collection, use data that already exists: the **VD VSP order-intake system** (896 SKUs, WhatsApp → PDF quotation) already writes real orders to **Supabase** every day. No collection needed.
-- **The project:** regression to predict an order's total value (or quantity) from its features — customer, SKU(s), timing, order size. This IS the roadmap's stated Phase 1 project ("regression on real client order data") and uses the linear/multiple regression he already built from scratch. Business framing = agency case study: a model on a client's live order history that predicts order value.
-- **Prospect scoring is deferred, not dropped** — could still become a later classification case study once data accrues.
-- **Privacy:** client data stays local. `.gitignore` already blocks `*.csv`, so only the notebook + findings get committed, never raw order data.
+**CORRECTED understanding of VD VSP (the earlier notes were wrong):**
+- **Not WhatsApp, not Supabase.** Production VD VSP is a searchable 896-item HTML form (`storemanagement.niat.tech`) → n8n webhook → HTML report → PDF (PDFShift primary, pd.co fallback) → Gmail → **Google Sheets** log (append-only rows). No relational DB, no FK schema. The WhatsApp Cloud API build was a separate hackathon demo (NIAT TakeOver'26, 40-item pricelist, Meta test number) — NOT shipped to this client. Supabase pgvector belongs to a different project (the RAG chatbot).
+- **Not retail orders.** VD VSP is a **dairy cooperative**. The system is for **BCC (Branch Control Center) staff across Andhra Pradesh** to file internal **spare-parts requisition / usage reports** — not external customers placing orders. So customer / delivery / payment / discount / tax fields mostly don't exist. Closest analogs: BCC location ≈ "customer," a requisition ≈ "order," each catalog line = one line item with quantity + description/remarks.
+- Known bug fixed previously: duplicate "NA" item codes caused ID collisions; resolved by array-index-based item identification.
 
-**Blocking questions before scoping the pipeline (asked, awaiting his answers):**
-1. One row per *order*, or one row per *line item* (SKU within an order)?
-2. What columns exist — date, customer, SKU, quantity, price, total, delivery area, payment status?
-3. Rough row count — dozens, hundreds, or thousands of orders?
+**Why the theme changed from order-value regression:** line total = qty × catalog unit price = deterministic lookup. Predicting it is trivial, nothing to learn. Dead target. The interesting regression/forecasting target is **quantity** — e.g. monthly usage per SKU, or per BCC location. Business value: inventory planning for the cooperative instead of reacting.
 
-**First step for him:** export a CSV from Supabase and drop it in `~/ml-journey/`. Fallback if prod export is a hassle today: generate a realistic stand-in modeled on his real schema, build the identical pipeline, swap in real data later.
+- **Candidate targets:** monthly quantity per SKU, or quantity per requisition line.
+- **Candidate features:** SKU / part category, BCC location, month (seasonality), lagged past usage.
+- **HONEST VIABILITY CAVEAT:** depends entirely on the actual data — total volume and how much history exists. An internal requisition log may be too low-volume / low-signal to model well. Cannot judge until the sheet is seen. **Fallback dataset: SREE field service reports** if VD VSP proves too thin. (KaagazAI extraction runs are a third option.)
+- **Prospect scoring:** deferred, not dropped — possible later classification case study.
+- **Privacy:** client data stays local. `.gitignore` blocks `*.csv`; only the notebook + findings get committed.
 
-**Planned pipeline once data lands:** clean → EDA → from-scratch model (raw NumPy per his rule) → sklearn check → business-framed writeup for the repo.
+**Blocking data needed before scoping (from the Google Sheet, not a DB):**
+1. Column headers of the log sheet(s).
+2. Structure: one row per report (with a JSON/blob of items) vs one row per line item (flattened) vs separate header + line-item sheets.
+3. Total row count and the date range (min/max timestamp).
+4. A ~20-row sample to inventory types and spot data-quality issues.
+
+**First step for him:** open the VD VSP Google Sheet(s); share them or paste headers + ~20 sample rows + total row count + timestamp min/max. Then decide if VD VSP is viable or switch to SREE.
+
+**Planned pipeline once data lands:** clean → EDA → feature engineering (encode categoricals, lag features for usage) → from-scratch model (raw NumPy per his rule) → sklearn check → business-framed writeup.
 
 ## How to work with him
 

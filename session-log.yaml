@@ -34,3 +34,11 @@ sessions:
     difficulty: right
     notes: "Self-directed catch-up — no Rule 4 plan existed for these items, so planned_min is null and this entry is excluded from lab/quiz multiplier calibration."
     status: completed
+
+  - date: 2026-08-06
+    items: [mini_project_eda_q1, mini_project_eda_q2, mini_project_eda_q3, mini_project_eda_q4, mini_project_eda_q5, mini_project_eda_findings]
+    planned_min: null
+    actual_min: 180
+    difficulty: right
+    notes: "Stage 1 EDA complete — all 5 questions answered, findings summary written. No timed plan."
+    status: completed

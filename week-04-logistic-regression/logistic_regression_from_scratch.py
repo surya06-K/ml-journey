@@ -39,6 +39,7 @@ def sigmoid(z):
 
     Hint: one line. np.exp() is the exponential. Works element-wise on arrays.
     """
+    z = np.clip(z, -500, 500)
     return (1/(1+(np.exp(-z))))
 
 
@@ -62,7 +63,7 @@ def predict(X, w, b):
     return sigmoid(np.dot(X, w) + b)
 
 
-def compute_cost(X, y, w, b):
+def compute_cost(X, y, w, b, lam=0):
     """
     Log loss (binary cross-entropy):
 
@@ -91,10 +92,11 @@ def compute_cost(X, y, w, b):
     eps = 1e-15
     f = np.clip(f, eps, 1 - eps)
     J = -(1/m) * np.sum(y * np.log(f) + (1 - y) * np.log(1 - f))
+    J += (lam / (2 * m)) * np.sum(w ** 2)
     return J
 
 
-def compute_gradient(X, y, w, b):
+def compute_gradient(X, y, w, b, lam=0):
     """
     Gradients of the log-loss cost. Same FORM as linear regression — the only
     difference is that f(x) is the sigmoid output.
@@ -118,13 +120,13 @@ def compute_gradient(X, y, w, b):
     """
     f = predict(X, w, b)
     m = len(y)
-    dw = (1/m) * X.T @ (f-y)
+    dw = (1/m) * X.T @ (f - y) + (lam / m) * w
     db = (1/m) * np.sum(f-y)
     return dw, db
 
 
 
-def gradient_descent(X, y, w_init, b_init, alpha, num_iters):
+def gradient_descent(X, y, w_init, b_init, alpha, num_iters, lam=0):
     """
     Run gradient descent. Identical loop to Week 3.
 
@@ -135,6 +137,7 @@ def gradient_descent(X, y, w_init, b_init, alpha, num_iters):
         b_init: float
         alpha: float
         num_iters: int
+        lam: float, L2 regularization parameter
 
     Returns:
         (w, b, cost_history)
@@ -148,13 +151,13 @@ def gradient_descent(X, y, w_init, b_init, alpha, num_iters):
     cost_his = []
 
     for i in range(num_iters):
-        dw, db = compute_gradient(X, y, w, b)
+        dw, db = compute_gradient(X, y, w, b, lam)
 
         
         w = w - alpha * dw
         b = b - alpha * db
 
-        cost = compute_cost(X, y, w, b)
+        cost = compute_cost(X, y, w, b, lam)
         cost_his.append(cost)
 
     return w, b, cost_his

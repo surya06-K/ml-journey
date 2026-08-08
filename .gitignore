@@ -32,6 +32,7 @@ data/
 *.tsv
 *.xlsx
 *.parquet
+*.zip
 !**/sample_*.csv
 
 # Models
